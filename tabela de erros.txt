@@ -1,0 +1,5 @@
+TABELA DE ERROS COMUNS
+0 => nenhum erro
+-1 => servidor não encontrado
+-2 => usuário inválido (login errado?)
+-3 => resposta do servidor mal formatada
