@@ -1,5 +1,6 @@
 package colabora.oaprendizagem.dados 
 {
+	import colabora.display.AreaImagens;
 	import colabora.oaprendizagem.servidor.Usuario;
 	import colabora.oaprendizagem.servidor.Servidor;
 	
@@ -35,6 +36,11 @@ package colabora.oaprendizagem.dados
 		 * Conexão com o servidor.
 		 */
 		public static var servidor:Servidor;
+		
+		/**
+		 * Área de inclusão de imagens.
+		 */
+		public static var areaImagem:AreaImagens;
 		
 		
 		
