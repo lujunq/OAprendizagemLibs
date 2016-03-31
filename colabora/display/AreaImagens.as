@@ -149,6 +149,22 @@ package colabora.display
 		}
 		
 		/**
+		 * Posiciona a área de imagem dentro de uma área definida.
+		 * @param	holder	área para encaixar
+		 */
+		public function fitOnArea(area:Rectangle):void
+		{
+			this.width = area.width;
+			this.scaleY = this.scaleX;
+			if (this.height > area.height) {
+				this.height = area.height;
+				this.scaleX = this.scaleY;
+			}
+			this.x = area.x + ((area.width - this.width) / 2);
+			this.y = area.y + ((area.height - this.height) / 2);
+		}
+		
+		/**
 		 * Libera recursos usados pelo objeto.
 		 */
 		public function dispose():void
