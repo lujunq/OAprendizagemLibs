@@ -1,5 +1,12 @@
 TABELA DE ERROS COMUNS
-0 => nenhum erro
+ 0 => nenhum erro
 -1 => servidor não encontrado
 -2 => usuário inválido (login errado?)
 -3 => resposta do servidor mal formatada
+-4 => requisição feita a um objeto de aprendizagem errado
+-5 => dados insuficientes para completar a ação
+-6 => erro no upload de arquivo
+
+ERROS APP NARRATIVAS VISUAIS
+1 => dados insuficientes para salvar a imagem de uma página
+2 => erro ao identificar o projeto ao enviar a imagem de uma página
