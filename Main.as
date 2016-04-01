@@ -79,7 +79,8 @@ package
 			*/
 			
 			// COMEÇANDO A GRAVAR UMA NARRATIVA
-			// primeiro: enviar informações da narrativa e recuperar o id de gravação
+			// primeiro: enviar informações da narrativa (título e tags- separadas por vírgulas) e recuperar o id de gravação
+			// para acessar o servidor, usar a função "chamar" de ObjetoAprendizagem.servidor
 			var dados:URLVariables = new URLVariables();
 			dados['titulo'] = 'Título da narrativa aqui';
 			dados['tags'] = 'tags,separadas,por,vírgula';
@@ -97,23 +98,73 @@ package
 				this._idgrav = dados['id']; // o valor id de dados traz o id de gravação
 				// após ter o id da gravação, podemos salvar as imagens das páginas, uma a uma
 				// a gravação das imagens deve ser feita na ordem das páginas
-				// como exemplo, enviando duas imagens chamadas "pagina1.jpg" e "pagina2.jpg" gravadas na pasta de documentos
-				// no app, usar a função getPicture da área de imagem para criar as imagens
-				var pagina:File = File.documentsDirectory.resolvePath('pagina1.jpg');
+				// devemos enviar o ID da narrativa (recém recebido) e a imagem
+				// a imagem deve ser enviada na forma de um ByteArray com o conteúdo (o objeto AreaImagens já retorna isso)
+				
+				var imagem:AreaImagens = new AreaImagens(1280, 720, 0xFF9900);
+				
 				var dados:URLVariables = new URLVariables();
 				dados['id'] = this._idgrav;
-				if (ObjetoAprendizagem.servidor.upload('salvar-imagem', pagina, dados, pagina1Enviada)) {
+				if (ObjetoAprendizagem.servidor.upload('salvar-imagem', imagem.getPicture(), dados, pagina1Enviada)) {
 					trace ('começando envio da página 1');
 				} else {
 					trace ('não foi possível enviar a página 1');
 				}
 			} else {
-				trace ('erro na criação do id de gravação: ', dados['erro'], dados['post']);
+				trace ('erro na criação do id de gravação: ', dados['erro']);
 			}
 		}
 		
+		// resposta da gravação da página 1
 		private function pagina1Enviada(dados:URLVariables):void {
-			trace ('página 1 enviada');
+			if (int(dados['erro']) == 0) {
+				trace ('página 1 gravada. iniciando o envio da página 2');
+				
+				var imagem:AreaImagens = new AreaImagens(1280, 720, 0x00CC99);
+				
+				var dados:URLVariables = new URLVariables();
+				dados['id'] = this._idgrav;
+				if (ObjetoAprendizagem.servidor.upload('salvar-imagem', imagem.getPicture(), dados, pagina2Enviada)) {
+					trace ('começando envio da página 2');
+				} else {
+					trace ('não foi possível enviar a página 2');
+				}
+				
+			} else {
+				trace ('erro na gravação da primeira página: ', dados['erro']);
+			}
+		}
+		
+		// resposta da gravação da página 2
+		private function pagina2Enviada(dados:URLVariables):void {
+			if (int(dados['erro']) == 0) {
+				trace ('página 2 gravada');
+				
+				// para finalizar a gravação, basta enviar o ID da narrativa usando a função 'chamar' de ObjetoAprendizagem.servidor
+				
+				var dados:URLVariables = new URLVariables();
+				dados['id'] = this._idgrav;
+				
+				if (ObjetoAprendizagem.servidor.chamar('salvar-fim', dados, retornoSalvarFim)) { // retornoSalvarFim é chamada após a confirmação
+					trace ('começando a finalizar a gravação');
+				} else {
+					trace ('não é possível finalizar a narrativa no momento');
+				}
+				
+			} else {
+				trace ('erro na gravação da segunda página: ', dados['erro']);
+			}
+		}
+		
+		// recebendo informações sobre o final da gravação da narrativa
+		private function retornoSalvarFim(dados:URLVariables):void
+		{
+			if (int(dados['erro']) == 0) {
+				// caso o erro seja 0, a gravação danarrativa terminou com sucesso
+				trace ('narrativa gravada com id ', this._idgrav);
+			} else {
+				trace ('erro na gravação da narrativa: ', dados['erro']);
+			}
 		}
 		
 		// função chamada após dados do usuário: login ou criação

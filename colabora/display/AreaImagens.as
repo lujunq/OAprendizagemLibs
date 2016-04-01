@@ -105,7 +105,7 @@ package colabora.display
 		 * @param	quality	qualidade da codificação (apenas para JPG, 0 a 100)
 		 * @return
 		 */
-		public function getPicture(mode:String, quality:int = 80):ByteArray
+		public function getPicture(mode:String = 'jpg', quality:int = 80):ByteArray
 		{
 			mode = mode.toLowerCase();
 			var bdata:BitmapData = this.getBitmapData();

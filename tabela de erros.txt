@@ -10,3 +10,6 @@ TABELA DE ERROS COMUNS
 ERROS APP NARRATIVAS VISUAIS
 1 => dados insuficientes para salvar a imagem de uma página
 2 => erro ao identificar o projeto ao enviar a imagem de uma página
+3 => dados insuficientes para finalizar a gravação de um projeto
+4 => a nerrativa não está registrada no banco de dados
+5 => tentativa de gravar uma narrativa sem páginas
