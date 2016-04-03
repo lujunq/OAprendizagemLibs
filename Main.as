@@ -1,6 +1,7 @@
 package
 {
 	import colabora.display.AreaImagens;
+	import colabora.oaprendizagem.servidor.Listagem;
 	import colabora.oaprendizagem.servidor.Servidor;
 	import colabora.oaprendizagem.servidor.Usuario;
 	import flash.desktop.NativeApplication;
@@ -29,8 +30,9 @@ package
 	{
 		
 		private var _areaImagem:AreaImagens = new AreaImagens(1080, 1920);		// área para inclusão de imagens da narrativa
-		private var _loader:Loader;		// para carregar imagens
-		private var _idgrav:String;		// id de gravação da narrativa
+		private var _loader:Loader;			// para carregar imagens
+		private var _idgrav:String;			// id de gravação da narrativa
+		private var _listagem:Listagem;		// área para listagem de conteúdo
 		
 		public function Main() 
 		{
@@ -59,6 +61,7 @@ package
 			}
 			*/
 			
+			
 			// CRIANDO UM USUÁRIO
 			/*
 			this.addChild(ObjetoAprendizagem.usuario);
@@ -81,6 +84,7 @@ package
 			// COMEÇANDO A GRAVAR UMA NARRATIVA
 			// primeiro: enviar informações da narrativa (título e tags- separadas por vírgulas) e recuperar o id de gravação
 			// para acessar o servidor, usar a função "chamar" de ObjetoAprendizagem.servidor
+			/*
 			var dados:URLVariables = new URLVariables();
 			dados['titulo'] = 'Título da narrativa aqui';
 			dados['tags'] = 'tags,separadas,por,vírgula';
@@ -89,8 +93,28 @@ package
 			} else {
 				trace ('não é possível salvar a narrativa no momento');
 			}
+			*/
+			
+			// LISTANDO CONTEÚDO
+			// primeiro, criar a área de listagem com o tamanho desejado
+			this._listagem = new Listagem(stage.stageWidth, stage.stageHeight);
+			// segundo, definir a funação a ser chamada quando uma narrativa for selecionada (deve receber um string com o ID selecionado)
+			this._listagem.fMostrar = mostrarNarrativa;
+			// terceiro, adicionando a área de listagem à tela
+			this.addChild(this._listagem);
+			// por último, chamar a listagem
+			this._listagem.listar();	// listar sem nenhum filtro, com 20 narrativas por página, começando da página 0 (inicial)
+			// this._listagem.listar('geografia');				// listar narrativas com tag ou título "geografia"
+			// this._listagem.listar('ciências,história')		// listar narrativas com tags ou títulis contendo "ciências" ou "história"
+			// this._listagem.listar('', 40, 2);				// listar todas as narrativas, exibindo 40 por página, começando da página 2
 		}
 		
+		// recebendo o pedido de exibição de uma narrativa
+		private function mostrarNarrativa(id:String):void {
+			trace ('mostrar a narrativa de ID', id);
+		}
+		
+		/*
 		// recebendo informações sobre o id de gravação da narrativa atual
 		private function retornoSalvarInicio(dados:URLVariables):void
 		{
@@ -166,16 +190,19 @@ package
 				trace ('erro na gravação da narrativa: ', dados['erro']);
 			}
 		}
+		*/
 		
-		// função chamada após dados do usuário: login ou criação
 		/*
+		// função chamada após dados do usuário: login ou criação
 		private function respostaUsuario(dados:URLVariables):void
 		{
 			// a variável dados recebe os seguintes campos: nome, login, chave e id (dados['nome'] = nome do usuário logado)
 			// terminado o login ou a criação, esses dados são automaticamente gravados e podem ser acessados a qualquer momento:
 			// ObjetoAprendizagem.usuario.nome; ObjetoAprendizagem.usuario.login; ObjetoAprendizagem.usuario.id
+			trace ('resposta sobre usuário:' , dados.toString());
 		}
 		*/
+		
 		
 		// adicionando uma imagem carregada à área de imagens
 		/*

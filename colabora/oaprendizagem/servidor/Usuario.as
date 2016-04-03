@@ -72,6 +72,15 @@ package colabora.oaprendizagem.servidor
 				else return ('');
 		}
 		
+		/**
+		 * Instituição do usuário atual.
+		 */
+		public function get instituicao():int
+		{
+			if (this.logado) return (int(this._data.getValue('inst')));
+				else return (-1);
+		}
+		
 		// FUNÇÕES PÚBLICAS
 		
 		/**
@@ -105,6 +114,7 @@ package colabora.oaprendizagem.servidor
 			this._data.clearValue('nome');
 			this._data.clearValue('id');
 			this._data.clearValue('logado');
+			this._data.clearValue('inst');
 			this._data.save();
 		}
 		
@@ -130,6 +140,7 @@ package colabora.oaprendizagem.servidor
 			this._data.setValue('chave', String(data['chave']));
 			this._data.setValue('nome', String(data['nome']));
 			this._data.setValue('id', String(data['id']));
+			this._data.setValue('inst', String(data['inst']));
 			this._data.setValue('logado', 'true');
 			this._data.save();
 			// avisando
@@ -146,6 +157,7 @@ package colabora.oaprendizagem.servidor
 			this._data.setValue('chave', String(data['chave']));
 			this._data.setValue('nome', String(data['nome']));
 			this._data.setValue('id', String(data['id']));
+			this._data.setValue('inst', String(data['inst']));
 			this._data.setValue('logado', 'true');
 			this._data.save();
 			// avisando
