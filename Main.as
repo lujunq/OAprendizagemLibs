@@ -1,7 +1,7 @@
 package
 {
 	import colabora.display.AreaImagens;
-	import colabora.oaprendizagem.dados.ProjetoDados;
+	import informacoes.ProjetoDados;
 	import colabora.oaprendizagem.servidor.Listagem;
 	import colabora.oaprendizagem.servidor.Servidor;
 	import colabora.oaprendizagem.servidor.Usuario;
