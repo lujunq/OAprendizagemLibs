@@ -1,6 +1,7 @@
 package
 {
 	import colabora.display.AreaImagens;
+	import colabora.oaprendizagem.dados.ProjetoDados;
 	import colabora.oaprendizagem.servidor.Listagem;
 	import colabora.oaprendizagem.servidor.Servidor;
 	import colabora.oaprendizagem.servidor.Usuario;
@@ -43,7 +44,7 @@ package
 			// DEFININDO PROPRIEDADES DE UM OBJETO DE APRENDIZAGEM
 			ObjetoAprendizagem.nome = 'Narrativas visuais';
 			ObjetoAprendizagem.codigo = 'narvisuais';
-			ObjetoAprendizagem.urlServidor = 'http://localhost/oaprendizagem/web/';
+			ObjetoAprendizagem.urlServidor = 'http://www.var.art.br/oaprendizagem/web/';
 			// preparando servidor
 			ObjetoAprendizagem.servidor = new Servidor();
 			// verificando o usuário
@@ -95,6 +96,7 @@ package
 			}
 			*/
 			
+			/*
 			// LISTANDO CONTEÚDO
 			// primeiro, criar a área de listagem com o tamanho desejado
 			this._listagem = new Listagem(stage.stageWidth, stage.stageHeight);
@@ -107,6 +109,13 @@ package
 			// this._listagem.listar('geografia');				// listar narrativas com tag ou título "geografia"
 			// this._listagem.listar('ciências,história')		// listar narrativas com tags ou títulis contendo "ciências" ou "história"
 			// this._listagem.listar('', 40, 2);				// listar todas as narrativas, exibindo 40 por página, começando da página 2
+			*/
+			
+			var projeto:ProjetoDados = new ProjetoDados();
+			//trace (JSON.stringify(projeto));
+			projeto.parse('{"titulo":"","id":"","tags":"","paginas":[{"imagens":[{"y":0,"x":50}],"baloes":[{"y":0,"x":0}]},{"imagens":[{"y":0,"x":70}],"baloes":[{"y":0,"x":0}]}]}');
+			
+			trace (JSON.stringify(projeto));
 		}
 		
 		// recebendo o pedido de exibição de uma narrativa
