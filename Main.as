@@ -1,7 +1,7 @@
 package
 {
 	import colabora.display.AreaImagens;
-	import colabora.oaprendizagem.dados.ProjetoDados;
+	import colabora.oaprendizagem.servidor.Conteudo;
 	import colabora.oaprendizagem.servidor.Listagem;
 	import colabora.oaprendizagem.servidor.Servidor;
 	import colabora.oaprendizagem.servidor.Usuario;
@@ -34,6 +34,7 @@ package
 		private var _loader:Loader;			// para carregar imagens
 		private var _idgrav:String;			// id de gravação da narrativa
 		private var _listagem:Listagem;		// área para listagem de conteúdo
+		private var _exibir:Conteudo;		// área para exibição de conteúdo
 		
 		public function Main() 
 		{
@@ -96,7 +97,6 @@ package
 			}
 			*/
 			
-			/*
 			// LISTANDO CONTEÚDO
 			// primeiro, criar a área de listagem com o tamanho desejado
 			this._listagem = new Listagem(stage.stageWidth, stage.stageHeight);
@@ -109,18 +109,18 @@ package
 			// this._listagem.listar('geografia');				// listar narrativas com tag ou título "geografia"
 			// this._listagem.listar('ciências,história')		// listar narrativas com tags ou títulis contendo "ciências" ou "história"
 			// this._listagem.listar('', 40, 2);				// listar todas as narrativas, exibindo 40 por página, começando da página 2
-			*/
-			
-			var projeto:ProjetoDados = new ProjetoDados();
-			//trace (JSON.stringify(projeto));
-			projeto.parse('{"titulo":"","id":"","tags":"","paginas":[{"imagens":[{"y":0,"x":50}],"baloes":[{"y":0,"x":0}]},{"imagens":[{"y":0,"x":70}],"baloes":[{"y":0,"x":0}]}]}');
-			
-			trace (JSON.stringify(projeto));
+			// criando a área de exibição de conteúdo
+			this._exibir = new Conteudo(stage.stageWidth, stage.stageHeight);
 		}
 		
 		// recebendo o pedido de exibição de uma narrativa
 		private function mostrarNarrativa(id:String):void {
 			trace ('mostrar a narrativa de ID', id);
+			// removendo listagem
+			this.removeChild(this._listagem);
+			// adicionando exibição e chamando o conteúdo
+			this.addChild(this._exibir);
+			this._exibir.mostrar(id);
 		}
 		
 		/*
