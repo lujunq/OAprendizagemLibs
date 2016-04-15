@@ -49,7 +49,7 @@ package
 			// DEFININDO PROPRIEDADES DE UM OBJETO DE APRENDIZAGEM
 			ObjetoAprendizagem.nome = 'Narrativas visuais';
 			ObjetoAprendizagem.codigo = 'narvisuais';
-			ObjetoAprendizagem.urlServidor = 'http://www.var.art.br/oaprendizagem/web/';
+			ObjetoAprendizagem.urlServidor = 'http://localhost/oaprendizagem/web/';
 			// preparando servidor
 			ObjetoAprendizagem.servidor = new Servidor();
 			// verificando o usuário
@@ -57,7 +57,7 @@ package
 			
 			
 			// ABRINDO A JANELA DE LOGIN DE UM USUÁRIO
-			/*
+			
 			if (!ObjetoAprendizagem.usuario.logado) {
 				trace ('usuário não identificado');
 				this.addChild(ObjetoAprendizagem.usuario);
@@ -65,7 +65,8 @@ package
 			} else {
 				trace ('usuário logado:', ObjetoAprendizagem.usuario.nome);
 			}
-			*/
+			
+			
 			
 			
 			// CRIANDO UM USUÁRIO
@@ -101,6 +102,7 @@ package
 			}
 			*/
 			
+			
 			// LISTANDO CONTEÚDO
 			// primeiro, criar a área de listagem com o tamanho desejado
 			this._listagem = new Listagem(stage.stageWidth, stage.stageHeight);
@@ -115,7 +117,9 @@ package
 			// this._listagem.listar('', 40, 2);				// listar todas as narrativas, exibindo 40 por página, começando da página 2
 			// criando a área de exibição de conteúdo
 			this._exibir = new Conteudo(stage.stageWidth, stage.stageHeight);
+			
 		}
+		
 		
 		// recebendo o pedido de exibição de uma narrativa
 		private function mostrarNarrativa(id:String):void {
@@ -126,6 +130,7 @@ package
 			this.addChild(this._exibir);
 			this._exibir.mostrar(id);
 		}
+		
 		
 		/*
 		// recebendo informações sobre o id de gravação da narrativa atual
@@ -205,7 +210,7 @@ package
 		}
 		*/
 		
-		/*
+		
 		// função chamada após dados do usuário: login ou criação
 		private function respostaUsuario(dados:URLVariables):void
 		{
@@ -214,7 +219,7 @@ package
 			// ObjetoAprendizagem.usuario.nome; ObjetoAprendizagem.usuario.login; ObjetoAprendizagem.usuario.id
 			trace ('resposta sobre usuário:' , dados.toString());
 		}
-		*/
+		
 		
 		
 		// adicionando uma imagem carregada à área de imagens
