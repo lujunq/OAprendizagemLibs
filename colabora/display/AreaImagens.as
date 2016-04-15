@@ -18,6 +18,16 @@ package colabora.display
 	public class AreaImagens extends Sprite 
 	{
 		
+		/**
+		 * Largura original da área de imagem.
+		 */
+		public var oWidth:Number;
+		
+		/**
+		 * Altura original da área de imagem.
+		 */
+		public var oHeight:Number;
+		
 		// VARIÁVEIS PRIVADAS
 		
 		private var _holder:Sprite;			// container para as imagens adicionadas
@@ -27,6 +37,10 @@ package colabora.display
 		public function AreaImagens(w:Number, h:Number, corBG:uint = 0) 
 		{
 			super();
+			
+			// guardando tamanho original
+			this.oWidth = w;
+			this.oHeight = h;
 			
 			// fundo da imagem
 			this._bg = new Shape();

@@ -1,11 +1,9 @@
 package
 {
 	import colabora.display.AreaImagens;
-<<<<<<< HEAD
+
 	import informacoes.ProjetoDados;
-=======
 	import colabora.oaprendizagem.servidor.Conteudo;
->>>>>>> origin/master
 	import colabora.oaprendizagem.servidor.Listagem;
 	import colabora.oaprendizagem.servidor.Servidor;
 	import colabora.oaprendizagem.servidor.Usuario;
