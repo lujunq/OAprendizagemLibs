@@ -49,6 +49,7 @@ package colabora.display
 		private var _msgok:Sprite;				// mensagem ok
 		private var _msgaguarde:Sprite;			// mensagem aguarde
 		private var _servidor:HTTPServer;		// servidor web para compartilhamento
+		private var _pastaWeb:File;				// pasta para o servidor web
 		
 		public function Compartilhamento(btscan:Sprite, btfechar:Sprite, btvoltar:Sprite, btsobre:Sprite, textoSobre:String, msgerro:Sprite, msgok:Sprite, msgaguarde:Sprite, corBG:int = 0, corTexto:int = 0xFFFFFF) 
 		{
@@ -118,9 +119,45 @@ package colabora.display
 			
 			// servidor web
 			this._servidor = new HTTPServer();
+			this._servidor.setMimeType('.data', 'application/zip');
 		}
 		
 		// FUNÇÕES PÚBLICAS
+		
+		/**
+		 * Inicia o servidor web para compartilhamento de um arquivo.
+		 * @param	arquivo	referência para o arquivo a ser compartilhado
+		 * @return	TRUE se o arquivo existir e o compartilhamento for iniciado
+		 */
+		public function iniciaURL(arquivo:File):Boolean
+		{
+			if (arquivo.exists) {
+				this._pastaWeb = File.createTempDirectory();
+				arquivo.copyTo(this._pastaWeb.resolvePath('upload.data'), true);
+				this._servidor.start(8090, this._pastaWeb);
+				
+				trace ('servidor', this._servidor.ready, this._servidor.ipv4Address);
+				
+				this.iniciaCompartilhamento(this._servidor.ipv4Address + '/upload.data');
+				return (true);
+			} else {
+				return (false);
+			}
+		}
+		
+		/**
+		 * Finaliza o servidor de compartilhamento de um arquivo.
+		 */
+		public function finalizaURL():void
+		{
+			if (this._pastaWeb != null) {
+				if (this._pastaWeb.isDirectory) {
+					this._pastaWeb.deleteDirectory(true);
+				}
+			}
+			this._pastaWeb = null;
+			this._servidor.stop();
+		}
 		
 		/**
 		 * Inicia o ocmpartilhamento de um arquivo.
@@ -301,7 +338,7 @@ package colabora.display
 		private function onReaderClose(evt:Event):void
 		{
 			this._texto.visible = false;
-			this._qrdisplay.visible = true;
+			this._qrdisplay.visible = this.mostrarQR;
 			this._btscan.visible = true;
 			this._btsobre.visible = true;
 			this._btvoltar.visible = true;
@@ -344,6 +381,8 @@ package colabora.display
 				this._btscan.visible = true;
 				this._btsobre.visible = true;
 			} else {
+				this.finalizaURL();
+				parent.removeChild(this);
 				this.dispatchEvent(new Event(Event.CLOSE));
 			}
 		}

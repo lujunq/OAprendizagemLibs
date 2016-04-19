@@ -117,7 +117,7 @@ package art.ciclope.net {
 		public function stop():void
 		{
 			if (this._serverSocket != null) {
-				try { this._serverSocket.close(); } catch (e:Error) { }
+				try { this._serverSocket.close(); } catch (e:Error) {  }
 				if (this._serverSocket.hasEventListener(Event.CONNECT)) this._serverSocket.removeEventListener(Event.CONNECT, onSocketConnect);
 				this._serverSocket = null;
 			}
