@@ -29,12 +29,16 @@ package colabora.display
 		private var _webview:Webview;
 		private var _btOK:Sprite;
 		private var _btCancel:Sprite;
+		private var _btAbrir:Sprite;
 		private var _pastaProjetos:File;
 		private var _titulo:TextField;
 		private var _bg:Shape;
 		private var _listaPastas:Array;
 		
-		public function EscolhaProjeto(titulo:String, btOK:Sprite, btCancel:Sprite, pasta:File, corBG:int = 0, corTitulo:int = 0xFFFFFF) 
+		private var _htmlIni:String;
+		private var _htmlFim:String;
+		
+		public function EscolhaProjeto(titulo:String, btOK:Sprite, btCancel:Sprite, btAbrir:Sprite, pasta:File, corBG:int = 0, corTitulo:int = 0xFFFFFF) 
 		{
 			// recebendo valores
 			this._pastaProjetos = pasta;
@@ -70,6 +74,19 @@ package colabora.display
 			this._btCancel = btCancel;
 			this._btCancel.addEventListener(MouseEvent.CLICK, onCancel);
 			this.addChild(this._btCancel);
+			this._btAbrir = btAbrir;
+			this._btAbrir.addEventListener(MouseEvent.CLICK, onAbrir);
+			this._btAbrir.visible = false;
+			this.addChild(this._btAbrir);
+			
+			// recuperando textos html
+			var stream:FileStream = new FileStream();
+			stream.open(File.applicationDirectory.resolvePath('listaProjetosInicio.html'), FileMode.READ);
+			this._htmlIni = stream.readUTFBytes(stream.bytesAvailable);
+			stream.close();
+			stream.open(File.applicationDirectory.resolvePath('listaProjetosFim.html'), FileMode.READ);
+			this._htmlFim = stream.readUTFBytes(stream.bytesAvailable);
+			stream.close();
 			
 			// verificando o stage
 			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
@@ -95,15 +112,7 @@ package colabora.display
 				// removendo escolhido anterior
 				this.escolhido = null;
 				// preparando o texto de espera
-				var listandoText:String = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title></title></head><body>Verificando os projetos gravados. Por favor aguarde...</body></html>';
-				var htmlListando:File = File.applicationDirectory.resolvePath('listandoProjetos.html');
-				if (htmlListando.exists) {
-					var stream:FileStream = new FileStream();
-					stream.open(htmlListando, FileMode.READ);
-					listandoText = stream.readUTFBytes(stream.bytesAvailable);
-					stream.close();
-				}
-				this._webview.loadString(listandoText);
+				this._webview.loadString(this._htmlIni + '<h1>Verificando projetos</h1>Verificando os projetos gravados. Por favor aguarde...' + this._htmlFim);
 				// recuperando lista de pastas
 				this.limpaListaPastas();
 				this._pastaProjetos.getDirectoryListingAsync();
@@ -114,6 +123,22 @@ package colabora.display
 			}
 		}
 		
+		/**
+		 * Mostra uma mensagem na área de exibição de projetos.
+		 * @param	msg	a mensagem a ser exibida
+		 */
+		public function mostrarMensagem(msg:String):void
+		{
+			this._webview.loadString(this._htmlIni + msg + this._htmlFim);
+		}
+		
+		/**
+		 * Mostrar o botão abrir.
+		 */
+		public function mostrarAbrir():void
+		{
+			this._btAbrir.visible = true;
+		}
 		
 		// FUNÇÕES PRIVADAS
 		
@@ -133,6 +158,17 @@ package colabora.display
 			this.dispatchEvent(new Event(Event.CANCEL));
 		}
 		
+		/**
+		 * Clique no botão abrir.
+		 */
+		private function onAbrir(evt:MouseEvent):void
+		{
+			this.dispatchEvent(new Event(Event.OPEN));
+		}
+		
+		/**
+		 * Um projeto foi selecionado na lista.
+		 */
 		private function onSelect(dados:Object):void
 		{
 			this.escolhido = dados;
@@ -153,16 +189,23 @@ package colabora.display
 				this._btCancel.scaleX = this._btCancel.scaleY;
 				this._btOK.height = stage.stageHeight / 6;
 				this._btOK.scaleX = this._btOK.scaleY;
+				this._btAbrir.height = stage.stageHeight / 6;
+				this._btAbrir.scaleX = this._btAbrir.scaleY;
 			} else { // retrato
 				this._btCancel.height = stage.stageHeight / 10;
 				this._btCancel.scaleX = this._btCancel.scaleY;
 				this._btOK.height = stage.stageHeight / 10;
 				this._btOK.scaleX = this._btOK.scaleY;
+				this._btAbrir.height = stage.stageHeight / 10;
+				this._btAbrir.scaleX = this._btAbrir.scaleY;
 			}
 			this._btCancel.x = 10;
 			this._btCancel.y = stage.stageHeight - this._btCancel.height - 5;
 			this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
 			this._btOK.y = stage.stageHeight - this._btOK.height - 5;
+			this._btAbrir.x = (stage.stageWidth - this._btAbrir.width) / 2;
+			this._btAbrir.y = stage.stageHeight - this._btAbrir.height - 5;
+			this._btAbrir.visible = false;
 			
 			// webview
 			this._webview.viewPort = new Rectangle(10, (this._titulo.y + this._titulo.height + 5), (stage.stageWidth - 20), (stage.stageHeight - (this._titulo.height + this._btCancel.height + 15)));
@@ -194,11 +237,7 @@ package colabora.display
 			this._listaPastas = evt.files;
 			
 			// iniciando o HTML de saída
-			var htmlFile:File = File.applicationDirectory.resolvePath('listaProjetosInicio.html');
-			var stream:FileStream = new FileStream();
-			stream.open(htmlFile, FileMode.READ);
-			var htmlText:String = stream.readUTFBytes(stream.bytesAvailable);
-			stream.close();
+			var htmlText:String = this._htmlIni
 			
 			// verificando projeto a projeto
 			var total:int = 0;
@@ -209,6 +248,7 @@ package colabora.display
 					// a pasta contém um arquivo "projeto.json"?
 					if (projeto.resolvePath('projeto.json').exists) {
 						// é possível recuperar o conteúdo do arquivo projeto.json como dados JSON?
+						var stream:FileStream = new FileStream();
 						stream.open(projeto.resolvePath('projeto.json'), FileMode.READ);
 						var jsonText:String = stream.readUTFBytes(stream.bytesAvailable);
 						stream.close();
@@ -238,10 +278,7 @@ package colabora.display
 			}
 			
 			// terminando o HTML de saída
-			htmlFile = File.applicationDirectory.resolvePath('listaProjetosFim.html');
-			stream.open(htmlFile, FileMode.READ);
-			htmlText += stream.readUTFBytes(stream.bytesAvailable);
-			stream.close();
+			htmlText += this._htmlFim;
 			
 			// aplicando o html ao webview
 			this._webview.loadString(htmlText);
