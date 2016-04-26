@@ -30,15 +30,17 @@ package colabora.display
 		private var _btOK:Sprite;
 		private var _btCancel:Sprite;
 		private var _btAbrir:Sprite;
+		private var _btLixeira:Sprite;
 		private var _pastaProjetos:File;
-		private var _titulo:TextField;
+		private var _txtTitulo:String;
+		
 		private var _bg:Shape;
 		private var _listaPastas:Array;
 		
 		private var _htmlIni:String;
 		private var _htmlFim:String;
 		
-		public function EscolhaProjeto(titulo:String, btOK:Sprite, btCancel:Sprite, btAbrir:Sprite, pasta:File, corBG:int = 0, corTitulo:int = 0xFFFFFF) 
+		public function EscolhaProjeto(titulo:String, btOK:Sprite, btCancel:Sprite, btAbrir:Sprite, btLixeira:Sprite, pasta:File, corBG:int = 0, corTitulo:int = 0xFFFFFF) 
 		{
 			// recebendo valores
 			this._pastaProjetos = pasta;
@@ -52,16 +54,7 @@ package colabora.display
 			this.addChild(this._bg);
 			
 			// texto
-			this._titulo = new TextField();
-			this._titulo.defaultTextFormat = new TextFormat('_sans', 20, corTitulo);
-			this._titulo.selectable = false;
-			this._titulo.multiline = false;
-			this._titulo.wordWrap = false;
-			this._titulo.autoSize = TextFieldAutoSize.LEFT;
-			this._titulo.x = 10;
-			this._titulo.y = 5;
-			this._titulo.htmlText = titulo;
-			this.addChild(this._titulo);
+			this._txtTitulo = titulo;
 			
 			// webview
 			this._webview = new Webview();
@@ -78,6 +71,10 @@ package colabora.display
 			this._btAbrir.addEventListener(MouseEvent.CLICK, onAbrir);
 			this._btAbrir.visible = false;
 			this.addChild(this._btAbrir);
+			this._btLixeira = btLixeira;
+			this._btLixeira.addEventListener(MouseEvent.CLICK, onLixeira);
+			this._btLixeira.visible = false;
+			this.addChild(this._btLixeira);
 			
 			// recuperando textos html
 			var stream:FileStream = new FileStream();
@@ -107,12 +104,13 @@ package colabora.display
 			if (this._pastaProjetos.isDirectory) {
 				// atualizando título?
 				if (titulo != '') {
-					this._titulo.text = titulo;
+					//this._titulo.text = titulo;
+					this._txtTitulo = titulo;
 				}
 				// removendo escolhido anterior
 				this.escolhido = null;
 				// preparando o texto de espera
-				this._webview.loadString(this._htmlIni + '<h1>Verificando projetos</h1>Verificando os projetos gravados. Por favor aguarde...' + this._htmlFim);
+				this._webview.loadString(this._htmlIni + '<h1>' + this._txtTitulo + '</h1>Verificando projetos</h1>Verificando os projetos gravados. Por favor aguarde...<br />' + this._htmlFim);
 				// recuperando lista de pastas
 				this.limpaListaPastas();
 				this._pastaProjetos.getDirectoryListingAsync();
@@ -138,6 +136,14 @@ package colabora.display
 		public function mostrarAbrir():void
 		{
 			this._btAbrir.visible = true;
+		}
+		
+		/**
+		 * Mostrar o botão lixeira.
+		 */
+		public function mostrarLixeira():void
+		{
+			this._btLixeira.visible = true;
 		}
 		
 		// FUNÇÕES PRIVADAS
@@ -167,6 +173,14 @@ package colabora.display
 		}
 		
 		/**
+		 * Clique no botão lixeira.
+		 */
+		private function onLixeira(evt:MouseEvent):void
+		{
+			this.dispatchEvent(new Event(Event.CLEAR));
+		}
+		
+		/**
 		 * Um projeto foi selecionado na lista.
 		 */
 		private function onSelect(dados:Object):void
@@ -183,33 +197,55 @@ package colabora.display
 			this._bg.width = stage.stageWidth;
 			this._bg.height = stage.stageHeight;
 			
-			// botões
+			// conferindo proporção de tela
 			if (stage.stageWidth > stage.stageHeight) { // paisagem
-				this._btCancel.height = stage.stageHeight / 6;
-				this._btCancel.scaleX = this._btCancel.scaleY;
-				this._btOK.height = stage.stageHeight / 6;
-				this._btOK.scaleX = this._btOK.scaleY;
-				this._btAbrir.height = stage.stageHeight / 6;
-				this._btAbrir.scaleX = this._btAbrir.scaleY;
+				
+				var tamanho:Number = stage.stageHeight / 7;
+				var intervalo:Number = ((2 * (stage.stageHeight / 7)) / 6);
+				
+				this._btCancel.width = this._btCancel.height = tamanho;
+				this._btOK.width = this._btOK.height = tamanho;
+				this._btAbrir.width = this._btAbrir.height = tamanho;
+				this._btLixeira.width = this._btLixeira.height = tamanho;
+				
+				this._btCancel.x = stage.stageWidth - 10 - this._btCancel.width;
+				this._btCancel.y = stage.stageHeight - intervalo - this._btCancel.height;
+				this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
+				this._btOK.y = this._btCancel.y - intervalo - this._btOK.height;
+				this._btAbrir.x = stage.stageWidth - 10 - this._btAbrir.width;
+				this._btAbrir.y = intervalo;
+				this._btLixeira.x = this._btAbrir.x;
+				this._btLixeira.y = this._btAbrir.y;
+				
+				this._webview.viewPort = new Rectangle(10, 10, (stage.stageWidth - 30 - this._btCancel.width), (stage.stageHeight - 20));
+				this._webview.stage = this.stage;
+				
 			} else { // retrato
+				
 				this._btCancel.height = stage.stageHeight / 10;
 				this._btCancel.scaleX = this._btCancel.scaleY;
 				this._btOK.height = stage.stageHeight / 10;
 				this._btOK.scaleX = this._btOK.scaleY;
 				this._btAbrir.height = stage.stageHeight / 10;
 				this._btAbrir.scaleX = this._btAbrir.scaleY;
+				this._btLixeira.height = stage.stageHeight / 10;
+				this._btLixeira.scaleX = this._btLixeira.scaleY;
+
+				this._btCancel.x = 10;
+				this._btCancel.y = stage.stageHeight - this._btCancel.height - 5;
+				this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
+				this._btOK.y = stage.stageHeight - this._btOK.height - 5;
+				this._btAbrir.x = (stage.stageWidth - this._btAbrir.width) / 2;
+				this._btAbrir.y = stage.stageHeight - this._btAbrir.height - 5;
+				this._btAbrir.visible = false;
+				this._btLixeira.x = this._btAbrir.x;
+				this._btLixeira.y = this._btAbrir.y;
+				this._btLixeira.visible = false;
+				
+				// webview
+				this._webview.viewPort = new Rectangle(10, 10, (stage.stageWidth - 20), (stage.stageHeight - (this._btCancel.height + 30)));
+				this._webview.stage = this.stage;
 			}
-			this._btCancel.x = 10;
-			this._btCancel.y = stage.stageHeight - this._btCancel.height - 5;
-			this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
-			this._btOK.y = stage.stageHeight - this._btOK.height - 5;
-			this._btAbrir.x = (stage.stageWidth - this._btAbrir.width) / 2;
-			this._btAbrir.y = stage.stageHeight - this._btAbrir.height - 5;
-			this._btAbrir.visible = false;
-			
-			// webview
-			this._webview.viewPort = new Rectangle(10, (this._titulo.y + this._titulo.height + 5), (stage.stageWidth - 20), (stage.stageHeight - (this._titulo.height + this._btCancel.height + 15)));
-			this._webview.stage = this.stage;
 		}
 		
 		/**
@@ -237,7 +273,7 @@ package colabora.display
 			this._listaPastas = evt.files;
 			
 			// iniciando o HTML de saída
-			var htmlText:String = this._htmlIni
+			var htmlText:String = this._htmlIni + '<h1>' + this._txtTitulo + '</h1>';
 			
 			// verificando projeto a projeto
 			var total:int = 0;
@@ -265,9 +301,9 @@ package colabora.display
 								var dateString:String = date.date + '/' + (date.month + 1) + '/' + date.fullYear;
 								htmlText += "<div onclick='onSelect(\"" + jsonObj.id + "\", \"" + jsonObj.titulo + "\");' id='" + jsonObj.id + "' name='prjdiv' class='unselect'>";
 								if (jsonObj.titulo == '') {
-									htmlText += '<b>Sem título</b> (' + dateString + ')<br />';
+									htmlText += '<b>Sem título</b> (' + dateString + ')<br />' + String(jsonObj.tags) + '<br />';
 								} else {
-									htmlText += '<b>' + jsonObj.titulo + '</b> (' + dateString + ')<br />';
+									htmlText += '<b>' + jsonObj.titulo + '</b> (' + dateString + ')<br />' + String(jsonObj.tags) + '<br />';
 								}
 								if (jsonObj.tags == '') htmlText += jsonObj.tags;
 								htmlText += '</div>';

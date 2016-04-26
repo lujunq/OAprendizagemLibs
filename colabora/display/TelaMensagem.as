@@ -19,6 +19,7 @@ package colabora.display
 		private var _btOK:Sprite;
 		private var _btCancel:Sprite;
 		private var _texto:TextField;
+		private var _cor:int;
 		
 		public function TelaMensagem(btok:Sprite, btcancel:Sprite, corBG:int = 0, corTexto:int = 0xFFFFFF) 
 		{
@@ -44,6 +45,7 @@ package colabora.display
 			this._texto.wordWrap = true;
 			this._texto.selectable = false;
 			this._texto.x = this._texto.y = 10;
+			this._cor = corTexto;
 			this.addChild(this._texto);
 			
 			// verificando exibição
@@ -74,26 +76,47 @@ package colabora.display
 			this._bg.width = stage.stageWidth;
 			this._bg.height = stage.stageHeight;
 			
-			// botões
-			if (stage.stageWidth > stage.stageHeight) { // paisagem
-				this._btCancel.height = stage.stageHeight / 6;
-				this._btCancel.scaleX = this._btCancel.scaleY;
-				this._btOK.height = stage.stageHeight / 6;
-				this._btOK.scaleX = this._btOK.scaleY;
-			} else { // retrato
-				this._btCancel.height = stage.stageHeight / 10;
-				this._btCancel.scaleX = this._btCancel.scaleY;
-				this._btOK.height = stage.stageHeight / 10;
-				this._btOK.scaleX = this._btOK.scaleY;
+			// definindo tamanho de botões e texto
+			var tamanho:Number;
+			var intervalo:Number;
+			var tamTexto:int;
+			if (this.stage.stageWidth > this.stage.stageHeight) { // retrato
+				tamanho = stage.stageHeight / 7;
+				intervalo = ((2 * (stage.stageHeight / 7)) / 6);
+				tamTexto = int(Math.ceil(stage.stageWidth / 40));
+				
+				this._btCancel.width = this._btCancel.height = tamanho;
+				this._btOK.width = this._btOK.height = tamanho;
+				
+				this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
+				this._btOK.y = stage.stageHeight - intervalo - this._btOK.height;
+				this._btCancel.x = stage.stageWidth - 10 - this._btCancel.width;
+				this._btCancel.y = this._btOK.y - intervalo - this._btCancel.height;
+				
+				this._texto.defaultTextFormat = new TextFormat('_sans', tamTexto, this._cor);
+				this._texto.width = stage.stageWidth - 30 - this._btCancel.width;
+				this._texto.height = stage.stageHeight - 20;
+				
+			} else {
+				tamanho = stage.stageWidth / 7;
+				intervalo = ((2 * (stage.stageWidth / 7)) / 6);
+				tamTexto = int(Math.ceil(stage.stageHeight / 40));
+				
+				this._btCancel.width = this._btCancel.height = tamanho;
+				this._btOK.width = this._btOK.width = tamanho;
+				
+				this._btCancel.x = 10;
+				this._btCancel.y = stage.stageHeight - 10 - this._btCancel.height;
+				this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
+				this._btOK.y = stage.stageHeight - 10 - this._btOK.height;
+				
+				this._texto.defaultTextFormat = new TextFormat('_sans', tamTexto, this._cor);
+				this._texto.width = stage.stageWidth -20;
+				this._texto.height = stage.stageHeight - 30 - this._btCancel.height;
 			}
-			this._btCancel.x = 10;
-			this._btCancel.y = stage.stageHeight - this._btCancel.height - 5;
-			this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
-			this._btOK.y = stage.stageHeight - this._btOK.height - 5;
 			
 			// texto
-			this._texto.width = stage.stageWidth - 20;
-			this._texto.height = stage.stageHeight - 30 - this._btCancel.height;
+			
 		}
 		
 		/**

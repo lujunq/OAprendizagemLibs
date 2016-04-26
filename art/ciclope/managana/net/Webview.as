@@ -24,7 +24,8 @@ package art.ciclope.managana.net
 		
 		public function Webview() 
 		{
-			this._view = new StageWebView(true);
+			//this._view = new StageWebView(true);
+			this._view = new StageWebView();
 			this._view.addEventListener(LocationChangeEvent.LOCATION_CHANGING, onChanging);
 			this._view.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onChange);
 			this._view.addEventListener(ErrorEvent.ERROR, onError);
@@ -163,11 +164,26 @@ package art.ciclope.managana.net
 		}
 		
 		private function onChange(evt:LocationChangeEvent):void {
-			this.dispatchEvent(evt.clone());
+			if (evt.location.substr(0, 11).toLocaleLowerCase() == 'http://api/') {
+				evt.preventDefault();
+				try {
+					var data:Object = JSON.parse(decodeURI(evt.location.substr(11)));
+					if (data.ac != null) {
+						if (this.hasCallback(String(data.ac))) {
+							this._calls[String(data.ac)](data);
+						}
+					}
+				} catch (e:Error) {
+					// do nothing: malformed data sent
+				}
+				
+			} else {
+				this.dispatchEvent(evt.clone());
+			}
 		}
 		
 		private function onError(evt:ErrorEvent):void {
-			this.dispatchEvent(evt.clone());
+			//this.dispatchEvent(evt.clone());
 		}
 		
 		private function onActivate(evt:Event):void {
