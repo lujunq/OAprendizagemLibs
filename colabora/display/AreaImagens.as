@@ -62,6 +62,16 @@ package colabora.display
 			this._holder.mask = this._mask;
 		}
 		
+		// SOMENTE LEITURA
+		
+		/**
+		 * Container onde as imagens são adicionadas.
+		 */
+		public function get container():Sprite
+		{
+			return (this._holder);
+		}
+		
 		// FUNÇÕES PÚBLICAS
 		
 		/**
@@ -168,14 +178,15 @@ package colabora.display
 		 */
 		public function fitOnArea(area:Rectangle):void
 		{
-			this.width = area.width;
-			this.scaleY = this.scaleX;
-			if (this.height > area.height) {
-				this.height = area.height;
+			this.scaleX = area.width / this.oWidth;
+			this.scaleY = area.height / this.oHeight;
+			if (this.scaleX > this.scaleY) {
 				this.scaleX = this.scaleY;
+			} else {
+				this.scaleY = this.scaleX;
 			}
-			this.x = area.x + ((area.width - this.width) / 2);
-			this.y = area.y + ((area.height - this.height) / 2);
+			this.x = area.x + ((area.width - (this.oWidth * this.scaleX)) / 2);
+			this.y = area.y + ((area.height - (this.oHeight * this.scaleY)) / 2);
 		}
 		
 		/**

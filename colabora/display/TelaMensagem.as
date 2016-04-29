@@ -21,12 +21,12 @@ package colabora.display
 		private var _texto:TextField;
 		private var _cor:int;
 		
-		public function TelaMensagem(btok:Sprite, btcancel:Sprite, corBG:int = 0, corTexto:int = 0xFFFFFF) 
+		public function TelaMensagem(w:Number, h:Number, btok:Sprite, btcancel:Sprite, corBG:int = 0, corTexto:int = 0xFFFFFF) 
 		{
 			// fundo
 			this._bg = new Shape();
 			this._bg.graphics.beginFill(corBG);
-			this._bg.graphics.drawRect(0, 0, 100, 100);
+			this._bg.graphics.drawRect(0, 0, w, h);
 			this._bg.graphics.endFill();
 			this.addChild(this._bg);
 			
@@ -40,16 +40,48 @@ package colabora.display
 			
 			// texto
 			this._texto = new TextField();
-			this._texto.defaultTextFormat = new TextFormat('_sans', 20, corTexto);
+			this._texto.defaultTextFormat = new TextFormat('_sans', 40, corTexto);
 			this._texto.multiline = true;
 			this._texto.wordWrap = true;
 			this._texto.selectable = false;
-			this._texto.x = this._texto.y = 10;
+			this._texto.x = this._texto.y = 30;
 			this._cor = corTexto;
 			this.addChild(this._texto);
 			
-			// verificando exibição
-			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
+			// definindo tamanho de botões e texto
+			var tamanho:Number;
+			var intervalo:Number;
+			
+			if (w > h) { // retrato
+				tamanho = h / 7;
+				intervalo = ((2 * (h / 7)) / 6);
+				
+				this._btCancel.width = this._btCancel.height = tamanho;
+				this._btOK.width = this._btOK.height = tamanho;
+				
+				this._btOK.x = w - 10 - this._btOK.width;
+				this._btOK.y = h - intervalo - this._btOK.height;
+				this._btCancel.x = w - 10 - this._btCancel.width;
+				this._btCancel.y = this._btOK.y - intervalo - this._btCancel.height;
+				
+				this._texto.width = w - 50 - this._btCancel.width;
+				this._texto.height = h - 60;
+				
+			} else {
+				tamanho = w / 7;
+				intervalo = ((2 * (w / 7)) / 6);
+				
+				this._btCancel.width = this._btCancel.height = tamanho;
+				this._btOK.width = this._btOK.width = tamanho;
+				
+				this._btCancel.x = 10;
+				this._btCancel.y = h - 10 - this._btCancel.height;
+				this._btOK.x = w - 10 - this._btOK.width;
+				this._btOK.y = h - 10 - this._btOK.height;
+				
+				this._texto.width = w - 60;
+				this._texto.height = h - 50 - this._btCancel.height;
+			}
 		}
 		
 		// FUNÇÕES PÚBLICAS
@@ -66,58 +98,6 @@ package colabora.display
 		}
 		
 		// FUNÇÕES PRIVADAS
-		
-		/**
-		 * Mensagem adicionada à tela.
-		 */
-		private function onStage(evt:Event):void
-		{
-			// fundo
-			this._bg.width = stage.stageWidth;
-			this._bg.height = stage.stageHeight;
-			
-			// definindo tamanho de botões e texto
-			var tamanho:Number;
-			var intervalo:Number;
-			var tamTexto:int;
-			if (this.stage.stageWidth > this.stage.stageHeight) { // retrato
-				tamanho = stage.stageHeight / 7;
-				intervalo = ((2 * (stage.stageHeight / 7)) / 6);
-				tamTexto = int(Math.ceil(stage.stageWidth / 40));
-				
-				this._btCancel.width = this._btCancel.height = tamanho;
-				this._btOK.width = this._btOK.height = tamanho;
-				
-				this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
-				this._btOK.y = stage.stageHeight - intervalo - this._btOK.height;
-				this._btCancel.x = stage.stageWidth - 10 - this._btCancel.width;
-				this._btCancel.y = this._btOK.y - intervalo - this._btCancel.height;
-				
-				this._texto.defaultTextFormat = new TextFormat('_sans', tamTexto, this._cor);
-				this._texto.width = stage.stageWidth - 30 - this._btCancel.width;
-				this._texto.height = stage.stageHeight - 20;
-				
-			} else {
-				tamanho = stage.stageWidth / 7;
-				intervalo = ((2 * (stage.stageWidth / 7)) / 6);
-				tamTexto = int(Math.ceil(stage.stageHeight / 40));
-				
-				this._btCancel.width = this._btCancel.height = tamanho;
-				this._btOK.width = this._btOK.width = tamanho;
-				
-				this._btCancel.x = 10;
-				this._btCancel.y = stage.stageHeight - 10 - this._btCancel.height;
-				this._btOK.x = stage.stageWidth - 10 - this._btOK.width;
-				this._btOK.y = stage.stageHeight - 10 - this._btOK.height;
-				
-				this._texto.defaultTextFormat = new TextFormat('_sans', tamTexto, this._cor);
-				this._texto.width = stage.stageWidth -20;
-				this._texto.height = stage.stageHeight - 30 - this._btCancel.height;
-			}
-			
-			// texto
-			
-		}
 		
 		/**
 		 * Clique no botão OK.
