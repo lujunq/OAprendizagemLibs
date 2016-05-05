@@ -135,9 +135,6 @@ package colabora.display
 				this._pastaWeb = File.createTempDirectory();
 				arquivo.copyTo(this._pastaWeb.resolvePath('upload.data'), true);
 				this._servidor.start(8090, this._pastaWeb);
-				
-				trace ('servidor', this._servidor.ready, this._servidor.ipv4Address);
-				
 				this.iniciaCompartilhamento(this._servidor.ipv4Address + '/upload.data');
 				return (true);
 			} else {
@@ -213,6 +210,7 @@ package colabora.display
 			this._qrreader.resize(stage.stageWidth, stage.stageHeight);
 			
 			// ajustando exibição do qrcode e botões
+			var intervalo:Number;
 			if (stage.stageWidth > stage.stageHeight) { // posição paisagem
 				// exibição do qrcode
 				this._qrdisplay.height = this._qrdisplay.width = (stage.stageHeight * 4 / 5) - 15;
@@ -268,8 +266,9 @@ package colabora.display
 				this._qrdisplay.x = (stage.stageWidth - this._qrdisplay.width) / 2;
 				this._qrdisplay.y = (stage.stageHeight - this._qrdisplay.height) / 2;
 				// botão de leitura
-				this._btscan.height = stage.stageHeight / 10;
+				this._btscan.height = this._btsobre.height = stage.stageHeight / 10;
 				this._btscan.scaleX = this._btscan.scaleY;
+				this._btsobre.scaleX = this._btsobre.scaleY;
 				this._btscan.y = stage.stageHeight - this._btscan.height - 5;
 				// ajuste de botões
 				while ((this._btscan.width + this._btsobre.width + 15) > (this.stage.stageWidth)) {
@@ -279,8 +278,9 @@ package colabora.display
 					this._btsobre.scaleX = this._btsobre.scaleY;
 				}
 				// posicionando botões
-				this._btscan.x = 5;
-				this._btsobre.x = stage.stageWidth - this._btsobre.width - 5;
+				intervalo = (this.stage.stageWidth - this._btscan.width - this._btsobre.width) / 3;
+				this._btscan.x = intervalo;
+				this._btsobre.x = this._btscan.x + this._btscan.width + intervalo;
 				// ajustando botão voltar
 				this._btvoltar.width = this._btvoltar.height = this.stage.stageWidth / 5;
 				this._btvoltar.x = this.stage.stageWidth - this._btvoltar.width - 5;
