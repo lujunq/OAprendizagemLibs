@@ -69,14 +69,14 @@ package colabora.display
 				
 			} else {
 				tamanho = w / 7;
-				intervalo = ((2 * (w / 7)) / 6);
 				
-				this._btCancel.width = this._btCancel.height = tamanho;
-				this._btOK.width = this._btOK.width = tamanho;
+				this._btCancel.width = this._btOK.width = tamanho;
+				this._btCancel.scaleY = this._btCancel.scaleX;
+				this._btOK.scaleY = this._btOK.scaleX;
 				
-				this._btCancel.x = 10;
+				this._btCancel.x = tamanho;
 				this._btCancel.y = h - 10 - this._btCancel.height;
-				this._btOK.x = w - 10 - this._btOK.width;
+				this._btOK.x = w - tamanho - this._btOK.width;
 				this._btOK.y = h - 10 - this._btOK.height;
 				
 				this._texto.width = w - 60;

@@ -270,6 +270,7 @@ package colabora.display
 				this._btscan.scaleX = this._btscan.scaleY;
 				this._btsobre.scaleX = this._btsobre.scaleY;
 				this._btscan.y = stage.stageHeight - this._btscan.height - 5;
+				this._btsobre.y = stage.stageHeight - this._btsobre.height - 5;
 				// ajuste de botões
 				while ((this._btscan.width + this._btsobre.width + 15) > (this.stage.stageWidth)) {
 					this._btscan.height--;

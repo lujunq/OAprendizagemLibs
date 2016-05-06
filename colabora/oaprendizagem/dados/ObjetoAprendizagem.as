@@ -2,6 +2,7 @@ package colabora.oaprendizagem.dados
 {
 	import colabora.display.AreaImagens;
 	import colabora.display.Compartilhamento;
+	import colabora.display.TelaMensagemStage;
 	import colabora.oaprendizagem.servidor.Usuario;
 	import colabora.oaprendizagem.servidor.Servidor;
 	
