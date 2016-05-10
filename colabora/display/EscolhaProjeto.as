@@ -32,6 +32,7 @@ package colabora.display
 		private var _btCancel:Sprite;
 		private var _btAbrir:Sprite;
 		private var _btLixeira:Sprite;
+		private var _btExtra:Sprite;
 		private var _pastaProjetos:File;
 		private var _txtTitulo:String;
 		
@@ -41,7 +42,7 @@ package colabora.display
 		private var _htmlIni:String;
 		private var _htmlFim:String;
 		
-		public function EscolhaProjeto(titulo:String, btOK:Sprite, btCancel:Sprite, btAbrir:Sprite, btLixeira:Sprite, pasta:File, corBG:int = 0x404040, corTitulo:int = 0xFFFFFF)
+		public function EscolhaProjeto(titulo:String, btOK:Sprite, btCancel:Sprite, btAbrir:Sprite, btLixeira:Sprite, pasta:File, corBG:int = 0x404040, corTitulo:int = 0xFFFFFF, btExtra:Sprite = null)
 		{
 			// recebendo valores
 			this._pastaProjetos = pasta;
@@ -76,6 +77,13 @@ package colabora.display
 			this._btLixeira.addEventListener(MouseEvent.CLICK, onLixeira);
 			this._btLixeira.visible = false;
 			this.addChild(this._btLixeira);
+			
+			// botão extra
+			if (btExtra != null) {
+				this._btExtra = btExtra;
+				this._btExtra.addEventListener(MouseEvent.CLICK, onExtra);
+				this.addChild(this._btExtra);
+			}
 			
 			// recuperando textos html
 			var stream:FileStream = new FileStream();
@@ -183,6 +191,14 @@ package colabora.display
 		private function onLixeira(evt:MouseEvent):void
 		{
 			this.dispatchEvent(new Event(Event.CLEAR));
+		}
+		
+		/**
+		 * Clique no botão extra.
+		 */
+		private function onExtra(evt:MouseEvent):void
+		{
+			this.dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**
