@@ -33,6 +33,7 @@ package colabora.display
 		private var _holder:Sprite;			// container para as imagens adicionadas
 		private var _mask:Shape;			// máscara para as imagens adicionadas
 		private var _bg:Shape;				// fundo da imagem
+		private var _cover:Sprite;			// imagem sobreposta
 		
 		public function AreaImagens(w:Number, h:Number, corBG:uint = 0) 
 		{
@@ -60,6 +61,12 @@ package colabora.display
 			this._mask.graphics.endFill();
 			super.addChild(this._mask);
 			this._holder.mask = this._mask;
+			
+			// imagem sobreposta
+			this._cover = new Sprite();
+			this._cover.mouseEnabled = false;
+			this._cover.mouseChildren = false;
+			this.addChild(this._cover);
 		}
 		
 		// SOMENTE LEITURA
@@ -100,6 +107,7 @@ package colabora.display
 		override public function removeChildren(beginIndex:int = 0, endIndex:int = 2147483647):void 
 		{
 			this._holder.removeChildren(beginIndex, endIndex);
+			this._cover.removeChildren();
 		}
 		
 		/**
@@ -202,8 +210,29 @@ package colabora.display
 			this._mask = null;
 			this._bg.graphics.clear();
 			this._bg = null;
+			this._cover.removeChildren();
+			this._cover = null;
 		}
 		
+		/**
+		 * Adiciona uma impagem em sobreposição.
+		 * @param	cv	imagem a ser adicionada
+		 */
+		public function addCover(cv:DisplayObject):void
+		{
+			this._cover.removeChildren();
+			cv.width = this.oWidth;
+			cv.height = this.oHeight;
+			this._cover.addChild(cv);
+		}
+		
+		/**
+		 * Limpa a imgem em sobreposição.
+		 */
+		public function clearCover():void
+		{
+			this._cover.removeChildren();
+		}
 	}
 
 }
