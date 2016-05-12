@@ -223,6 +223,8 @@ package colabora.display
 			this._cover.removeChildren();
 			cv.width = this.oWidth;
 			cv.height = this.oHeight;
+			cv.x = cv.width / 2;
+			cv.y = cv.height / 2;
 			this._cover.addChild(cv);
 		}
 		
