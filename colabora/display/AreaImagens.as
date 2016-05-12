@@ -66,7 +66,7 @@ package colabora.display
 			this._cover = new Sprite();
 			this._cover.mouseEnabled = false;
 			this._cover.mouseChildren = false;
-			this.addChild(this._cover);
+			super.addChild(this._cover);
 		}
 		
 		// SOMENTE LEITURA
@@ -106,6 +106,9 @@ package colabora.display
 		 */
 		override public function removeChildren(beginIndex:int = 0, endIndex:int = 2147483647):void 
 		{
+			
+			trace ('ai removechildren');
+			
 			this._holder.removeChildren(beginIndex, endIndex);
 			this._cover.removeChildren();
 		}
@@ -226,6 +229,14 @@ package colabora.display
 			cv.x = cv.width / 2;
 			cv.y = cv.height / 2;
 			this._cover.addChild(cv);
+			
+			/*
+			super.removeChildren();
+			this.addChild(this._holder)
+			this.addChild(this._mask);
+			this._holder.mask = this._mask;
+			this.addChild(this._cover);
+			*/
 		}
 		
 		/**
