@@ -51,7 +51,7 @@ package colabora.display
 		private var _servidor:HTTPServer;		// servidor web para compartilhamento
 		private var _pastaWeb:File;				// pasta para o servidor web
 		
-		public function Compartilhamento(btscan:Sprite, btfechar:Sprite, btvoltar:Sprite, btsobre:Sprite, textoSobre:String, msgerro:Sprite, msgok:Sprite, msgaguarde:Sprite, corBG:int = 0, corTexto:int = 0xFFFFFF) 
+		public function Compartilhamento(btscan:Sprite, btfechar:Sprite, btvoltar:Sprite, btsobre:Sprite, textoSobre:String, msgerro:Sprite, msgok:Sprite, msgaguarde:Sprite, corBG:int = 0xFFFFFF, corTexto:int = 0xFFFFFF) 
 		{
 			// fundo
 			this._bg = new Shape();
@@ -81,6 +81,7 @@ package colabora.display
 			
 			// botão sobre
 			this._btsobre = btsobre;
+			this._btsobre.visible = false;
 			this.addChild(this._btsobre);
 			this._btsobre.addEventListener(MouseEvent.CLICK, onSobre);
 			
@@ -167,7 +168,7 @@ package colabora.display
 			this._texto.visible = false;
 			this._qrdisplay.visible = true;
 			this._btscan.visible = true;
-			this._btsobre.visible = true;
+			this._btsobre.visible = false;
 			this._btvoltar.visible = true;
 			this._msgaguarde.visible = false;
 			this._msgerro.visible = false;
@@ -185,7 +186,7 @@ package colabora.display
 			this._texto.visible = false;
 			this._qrdisplay.visible = false;
 			this._btscan.visible = true;
-			this._btsobre.visible = true;
+			this._btsobre.visible = false;
 			this._btvoltar.visible = true;
 			this._msgaguarde.visible = false;
 			this._msgerro.visible = false;
@@ -204,7 +205,7 @@ package colabora.display
 			// ajustando o fundo
 			this._bg.x = this._bg.y = 0;
 			this._bg.width = this.stage.width;
-			this._bg.height = this.stage.height;
+			this._bg.height = this.stage.height + 50;
 			
 			// ajustando leitor de qrcode
 			this._qrreader.resize(stage.stageWidth, stage.stageHeight);
@@ -218,7 +219,8 @@ package colabora.display
 				this._qrdisplay.y = 5;
 				// botão de leitura e ajuda
 				this._btscan.height = this._btsobre.height = stage.stageHeight / 5;
-				this._btscan.y = this._btsobre.y = this._qrdisplay.y + this._qrdisplay.height + 5;
+				//this._btscan.y = this._btsobre.y = this._qrdisplay.y + this._qrdisplay.height + 5;
+				this._btscan.y = stage.stageHeight - this._btscan.height - 10;
 				this._btscan.scaleX = this._btscan.scaleY;
 				this._btsobre.scaleX = this._btsobre.scaleY;
 				// ajuste de botões
@@ -229,7 +231,7 @@ package colabora.display
 					this._btsobre.scaleX = this._btsobre.scaleY;
 				}
 				// posicionando botões
-				this._btscan.x = (stage.stageWidth / 2) - this._btscan.width - 2;
+				this._btscan.x = (stage.stageWidth - this._btscan.width) / 2;
 				this._btsobre.x = (stage.stageWidth / 2) + 2;
 				// ajustando botão voltar
 				this._btvoltar.width = this._btvoltar.height = this.stage.stageWidth / 10;
@@ -269,7 +271,8 @@ package colabora.display
 				this._btscan.height = this._btsobre.height = stage.stageHeight / 10;
 				this._btscan.scaleX = this._btscan.scaleY;
 				this._btsobre.scaleX = this._btsobre.scaleY;
-				this._btscan.y = stage.stageHeight - this._btscan.height - 5;
+				//this._btscan.y = stage.stageHeight - this._btscan.height - 5;
+				this._btscan.y = stage.stageHeight - this._btscan.height - 10;
 				this._btsobre.y = stage.stageHeight - this._btsobre.height - 5;
 				// ajuste de botões
 				while ((this._btscan.width + this._btsobre.width + 15) > (this.stage.stageWidth)) {
@@ -280,7 +283,7 @@ package colabora.display
 				}
 				// posicionando botões
 				intervalo = (this.stage.stageWidth - this._btscan.width - this._btsobre.width) / 3;
-				this._btscan.x = intervalo;
+				this._btscan.x = (this.stage.stageWidth - this._btscan.width) / 2;
 				this._btsobre.x = this._btscan.x + this._btscan.width + intervalo;
 				// ajustando botão voltar
 				this._btvoltar.width = this._btvoltar.height = this.stage.stageWidth / 5;
@@ -341,7 +344,7 @@ package colabora.display
 			this._texto.visible = false;
 			this._qrdisplay.visible = this.mostrarQR;
 			this._btscan.visible = true;
-			this._btsobre.visible = true;
+			this._btsobre.visible = false;
 			this._btvoltar.visible = true;
 			this.removeChild(this._qrreader);
 		}
@@ -380,7 +383,7 @@ package colabora.display
 				this._texto.visible = false;
 				this._qrdisplay.visible = true;
 				this._btscan.visible = true;
-				this._btsobre.visible = true;
+				this._btsobre.visible = false;
 			} else {
 				this.finalizaURL();
 				parent.removeChild(this);
@@ -396,7 +399,7 @@ package colabora.display
 			this._msgerro.visible = false;
 			this._qrdisplay.visible = true;
 			this._btscan.visible = true;
-			this._btsobre.visible = true;
+			this._btsobre.visible = false;
 			this._btvoltar.visible = true;
 		}
 		

@@ -44,7 +44,7 @@ package colabora.display
 			this._texto.multiline = true;
 			this._texto.wordWrap = true;
 			this._texto.selectable = false;
-			this._texto.x = this._texto.y = 30;
+			this._texto.x = this._texto.y = 90;
 			this._cor = corTexto;
 			this.addChild(this._texto);
 			
@@ -64,8 +64,8 @@ package colabora.display
 				this._btCancel.x = w - 10 - this._btCancel.width;
 				this._btCancel.y = this._btOK.y - intervalo - this._btCancel.height;
 				
-				this._texto.width = w - 50 - this._btCancel.width;
-				this._texto.height = h - 60;
+				this._texto.width = w - 110 - this._btCancel.width;
+				this._texto.height = h - 180;
 				
 			} else {
 				tamanho = w / 7;
@@ -79,8 +79,8 @@ package colabora.display
 				this._btOK.x = w - tamanho - this._btOK.width;
 				this._btOK.y = h - 10 - this._btOK.height;
 				
-				this._texto.width = w - 60;
-				this._texto.height = h - 50 - this._btCancel.height;
+				this._texto.width = w - 180;
+				this._texto.height = h - 110 - this._btCancel.height;
 			}
 		}
 		
