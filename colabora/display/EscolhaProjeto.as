@@ -82,6 +82,7 @@ package colabora.display
 			if (btExtra != null) {
 				this._btExtra = btExtra;
 				this._btExtra.addEventListener(MouseEvent.CLICK, onExtra);
+				
 				this.addChild(this._btExtra);
 			}
 			
@@ -238,15 +239,25 @@ package colabora.display
 				this._btAbrir.x = stage.stageWidth - 10 - this._btAbrir.width;
 				this._btAbrir.y = intervalo;
 				this._btLixeira.x = this._btAbrir.x;
-				this._btLixeira.y = this._btAbrir.y;
-				
+				this._btLixeira.y = this._btAbrir.y;				
 				this._webview.viewPort = new Rectangle(10, 10, (stage.stageWidth - 30 - this._btCancel.width), (stage.stageHeight - 20));
 				this._webview.stage = this.stage;
+				
+				this._btAbrir.width = stage.stageWidth / btscala;
+				this._btAbrir.scaleY = this._btAbrir.scaleX;
+				this._btAbrir.y = stage.stageHeight - this._btAbrir.height;
+				this._btAbrir.x = stage.stageWidth / 2 - this._btAbrir.width / 2;
+				
 				
 			}
 			else
 			{ 
 				// retrato
+				
+				this._btAbrir.width = stage.stageWidth / btscala;
+				this._btAbrir.scaleY = this._btAbrir.scaleX;
+				this._btAbrir.y = stage.stageHeight - this._btAbrir.height - stage.stageHeight / 40;
+				this._btAbrir.x = stage.stageWidth / 2 - this._btAbrir.width / 2;
 				
 				this._btOK.width = stage.stageWidth / btscala;
 				this._btOK.scaleY = this._btOK.scaleX;
