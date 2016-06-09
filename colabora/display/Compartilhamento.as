@@ -63,6 +63,7 @@ package colabora.display
 			// leitura do qrcode
 			this._qrreader = new QrCodeReader(100, 100, this.verificaQR, btfechar);
 			this._qrreader.addEventListener(Event.CLOSE, onReaderClose);
+			this._qrreader.addEventListener(Event.ADDED_TO_STAGE, onReaderStage);
 			
 			// exibição do qrcode
 			this._qrdisplay = new QRCodeDisplay();
@@ -302,6 +303,18 @@ package colabora.display
 				this._msgok.scaleY = this._msgok.scaleX;
 				this._msgok.x = (stage.stageWidth - this._msgok.width) / 2;
 				this._msgok.y = (stage.stageHeight - this._msgok.height) / 2;
+				// ajustando leitor de qr
+				this._qrreader.rotation = 90;
+				/*
+				this._qrreader.width = stage.stageWidth;
+				this._qrreader.scaleY = this._qrreader.scaleX;
+				if (this._qrreader.height > stage.stageHeight) {
+					this._qrreader.height = stage.stageHeight;
+					this._qrreader.scaleX = this._qrreader.scaleY;
+				}
+				*/
+				this._qrreader.resize(stage.stageHeight, stage.stageWidth);
+				this._qrreader.x = stage.stageWidth;
 			}
 			
 			// texto
@@ -347,6 +360,15 @@ package colabora.display
 			this._btsobre.visible = false;
 			this._btvoltar.visible = true;
 			this.removeChild(this._qrreader);
+		}
+		
+		private function onReaderStage(evt:Event):void
+		{
+			if (this._qrreader.stage.stageWidth > this._qrreader.stage.stageHeight) {
+				this._qrreader.rotation = 0;
+			} else {
+				this._qrreader.rotation = 90;
+			}
 		}
 		
 		/**

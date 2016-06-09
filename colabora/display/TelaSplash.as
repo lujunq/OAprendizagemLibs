@@ -35,6 +35,21 @@ package colabora.display
 			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
 		}
 		
+		public function resize():void
+		{
+			if ((this._video != null) && (this.stage != null)) {
+				if (this.stage.stageWidth > this.stage.stageHeight) {
+					this._video.height = this.stage.stageHeight;
+					this._video.width = 1280 * (this._video.height / 720);
+				} else {
+					this._video.width = this.stage.stageWidth;
+					this._video.height = 1280 * (this._video.width / 720);
+				}
+				this._video.x = (this.stage.stageWidth - this._video.width) / 2;
+				this._video.y = (this.stage.stageHeight - this._video.height) / 2;
+			}
+		}
+		
 		// FUNÇÕES PRIVADAS
 		
 		/**
@@ -120,7 +135,7 @@ package colabora.display
 						this._video.width = 1280 * (this._video.height / 720);
 					} else {
 						this._video.width = this.stage.stageWidth;
-						this._video.height = 720 * (this._video.width / 1280);
+						this._video.height = 1280 * (this._video.width / 720);
 					}
 					this._video.x = (this.stage.stageWidth - this._video.width) / 2;
 					this._video.y = (this.stage.stageHeight - this._video.height) / 2;
