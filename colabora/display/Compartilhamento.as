@@ -63,7 +63,6 @@ package colabora.display
 			// leitura do qrcode
 			this._qrreader = new QrCodeReader(100, 100, this.verificaQR, btfechar);
 			this._qrreader.addEventListener(Event.CLOSE, onReaderClose);
-			this._qrreader.addEventListener(Event.ADDED_TO_STAGE, onReaderStage);
 			
 			// exibição do qrcode
 			this._qrdisplay = new QRCodeDisplay();
@@ -360,15 +359,6 @@ package colabora.display
 			this._btsobre.visible = false;
 			this._btvoltar.visible = true;
 			this.removeChild(this._qrreader);
-		}
-		
-		private function onReaderStage(evt:Event):void
-		{
-			if (this._qrreader.stage.stageWidth > this._qrreader.stage.stageHeight) {
-				this._qrreader.rotation = 0;
-			} else {
-				this._qrreader.rotation = 90;
-			}
 		}
 		
 		/**
