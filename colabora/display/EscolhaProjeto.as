@@ -243,11 +243,6 @@ package colabora.display
 				this._webview.viewPort = new Rectangle(10, 10, (stage.stageWidth - 30 - this._btCancel.width), (stage.stageHeight - 20));
 				this._webview.stage = this.stage;
 				
-				this._btAbrir.width = stage.stageWidth / btscala;
-				this._btAbrir.scaleY = this._btAbrir.scaleX;
-				this._btAbrir.y = stage.stageHeight - this._btAbrir.height;
-				this._btAbrir.x = stage.stageWidth / 2 - this._btAbrir.width / 2;
-				
 				
 			}
 			else

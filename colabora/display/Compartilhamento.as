@@ -304,14 +304,6 @@ package colabora.display
 				this._msgok.y = (stage.stageHeight - this._msgok.height) / 2;
 				// ajustando leitor de qr
 				this._qrreader.rotation = 90;
-				/*
-				this._qrreader.width = stage.stageWidth;
-				this._qrreader.scaleY = this._qrreader.scaleX;
-				if (this._qrreader.height > stage.stageHeight) {
-					this._qrreader.height = stage.stageHeight;
-					this._qrreader.scaleX = this._qrreader.scaleY;
-				}
-				*/
 				this._qrreader.resize(stage.stageHeight, stage.stageWidth);
 				this._qrreader.x = stage.stageWidth;
 			}

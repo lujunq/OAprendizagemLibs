@@ -5,6 +5,7 @@ package colabora.oaprendizagem.dados
 	import colabora.display.TelaMensagemStage;
 	import colabora.oaprendizagem.servidor.Usuario;
 	import colabora.oaprendizagem.servidor.Servidor;
+	import flash.filesystem.File;
 	
 	/**
 	 * ...
@@ -54,6 +55,21 @@ package colabora.oaprendizagem.dados
 		public function ObjetoAprendizagem() 
 		{
 			
+		}
+		
+		/**
+		 * Copia o projeto de exemplo para o usuário caso ele não exista.
+		 * @param	nome	o nome da pasta do projeto de exemplo
+		 */
+		public static function copiaExemplo(nome:String):void
+		{
+			// conferindo se já existe o projeto de exemplo
+			var pastaEx:File = File.documentsDirectory.resolvePath(ObjetoAprendizagem.codigo + '/projetos/' + nome);
+			if (!pastaEx.isDirectory) {
+				// copiar o projeto de exemplo
+				var origem:File = File.applicationDirectory.resolvePath('exemplo/' + nome);
+				origem.copyTo(pastaEx, true);
+			}
 		}
 		
 	}

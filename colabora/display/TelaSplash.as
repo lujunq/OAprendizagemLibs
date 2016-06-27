@@ -96,7 +96,7 @@ package colabora.display
 			this.addChild(this._cor);
 			
 			// tocando o vídeo
-			this._stream.play(File.applicationDirectory.resolvePath('splash.mp4').url);
+			this._stream.play(File.applicationDirectory.resolvePath('splash.flv').url);
 		}
 		
 		/**
