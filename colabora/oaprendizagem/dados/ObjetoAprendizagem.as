@@ -66,9 +66,17 @@ package colabora.oaprendizagem.dados
 			// conferindo se já existe o projeto de exemplo
 			var pastaEx:File = File.documentsDirectory.resolvePath(ObjetoAprendizagem.codigo + '/projetos/' + nome);
 			if (!pastaEx.isDirectory) {
-				// copiar o projeto de exemplo
+				// criar pasta exemplo
+				pastaEx.createDirectory();
+				// copiar arquivo de projeto
 				var origem:File = File.applicationDirectory.resolvePath('exemplo/' + nome);
-				origem.copyToAsync(pastaEx, true);
+				if (origem.resolvePath('projeto.json').exists) origem.resolvePath('projeto.json').copyTo(pastaEx.resolvePath('projeto.json'), true);
+				// copiar capa
+				if (origem.resolvePath('capa.jpg').exists) origem.resolvePath('capa.jpg').copyTo(pastaEx.resolvePath('capa.jpg'), true);
+				// copiar pasta de imagens - balões				
+				if (origem.resolvePath('imagens').isDirectory) origem.resolvePath('imagens').copyToAsync(pastaEx.resolvePath('imagens'), true);
+				// copiar pasta de áudios
+				if (origem.resolvePath('audios').isDirectory) origem.resolvePath('audios').copyToAsync(pastaEx.resolvePath('audios'), true);
 			}
 		}
 		
