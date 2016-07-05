@@ -150,6 +150,7 @@ package colabora.display
 		public function mostrarAbrir():void
 		{
 			this._btAbrir.visible = true;
+			this._btLixeira.visible = false;
 		}
 		
 		/**
@@ -158,6 +159,7 @@ package colabora.display
 		public function mostrarLixeira():void
 		{
 			this._btLixeira.visible = true;
+			this._btAbrir.visible = false;
 		}
 		
 		// FUNÇÕES PRIVADAS

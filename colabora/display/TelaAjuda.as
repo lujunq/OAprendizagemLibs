@@ -140,7 +140,11 @@ package colabora.display
 				if (this._botoes.length > 0) {
 					var intervalo:Number = this.stage.stageWidth;
 					for (var i:int = 0; i < this._botoes.length; i++) {
-						this._botoes[i].height = this.stage.stageHeight / 10;
+						if (this.stage.stageWidth > this.stage.stageHeight) {
+							this._botoes[i].height = this.stage.stageHeight / 10;
+						} else {
+							this._botoes[i].height = this.stage.stageHeight / 15;
+						}
 						this._botoes[i].scaleX = this._botoes[i].scaleY;
 						intervalo -= this._botoes[i].width;
 					}

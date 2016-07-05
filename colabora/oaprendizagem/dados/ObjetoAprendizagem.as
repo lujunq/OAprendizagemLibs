@@ -68,7 +68,7 @@ package colabora.oaprendizagem.dados
 			if (!pastaEx.isDirectory) {
 				// copiar o projeto de exemplo
 				var origem:File = File.applicationDirectory.resolvePath('exemplo/' + nome);
-				origem.copyTo(pastaEx, true);
+				origem.copyToAsync(pastaEx, true);
 			}
 		}
 		
