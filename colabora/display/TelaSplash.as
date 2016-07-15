@@ -62,6 +62,7 @@ package colabora.display
 			
 			// criando vídeo
 			this._video = new Video();
+			this._video.smoothing = true;
 			
 			// criando conexão para video
 			this._connection = new NetConnection();
